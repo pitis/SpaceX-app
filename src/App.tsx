@@ -9,6 +9,7 @@ import {
   IonInfiniteScrollContent,
   IonList,
   IonItem,
+  IonNote,
   IonLabel,
   IonAvatar,
 } from '@ionic/react'
@@ -40,7 +41,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log('getRockets')
       let res = await axios.post(
         'https://api.spacexdata.com/v4/launches/query',
         {
@@ -88,9 +88,15 @@ const App: React.FC = () => {
                   />
                 </IonAvatar>
                 <IonLabel>{launch.name}</IonLabel>
-                <IonLabel slot='end' style={{ textAlign: 'right' }}>
-                  {launch.success ? 'Success' : 'Failed'}
+                <IonLabel>
+                  {new Date(launch.date_utc).getUTCDay()}/
+                  {new Date(launch.date_utc).getUTCMonth()}/
+                  {new Date(launch.date_utc).getUTCFullYear()}
                 </IonLabel>
+                <IonNote slot='end'>
+                  {launch.success ? 'Success' : 'Failed'}
+                </IonNote>
+                <IonLabel style={{ textAlign: 'right' }}></IonLabel>
               </IonItem>
             ))}
         </IonList>

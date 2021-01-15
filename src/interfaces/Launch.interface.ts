@@ -3,9 +3,9 @@ export interface Launch {
   name: string
   imageUrl: string
   information: string
-  details: string
   success: boolean
   links: links
+  date_utc: Date
 }
 
 interface links {
