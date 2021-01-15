@@ -11,6 +11,7 @@ For the second requirement, I created an "infinite" scroller where after the use
 - Date
 - Success Status
   Unfortunately, the Ionic Component for "Infinite Scroller" is not compatible with React, so the animation with a loading circle is not present, but the functionality is there.
+  In case there is no image to upload, a "no image" thumbnail appears.
 
 For the third requirement I created a name filter (searchBox) and a LaunchStatus filter. They can be used at the same time.
 
