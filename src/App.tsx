@@ -8,7 +8,10 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonItem,
-  IonInput,
+  IonSearchbar,
+  IonSelect,
+  IonLabel,
+  IonSelectOption,
 } from '@ionic/react'
 
 /* Core CSS required for Ionic components to work properly */
@@ -38,6 +41,8 @@ const App: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('')
   const [launches, setLaunches] = useState<Launch[]>([])
   const [filteredLaunches, setFilteredLaunches] = useState<Launch[]>([])
+  const [groupBySuccess, setGroupBySuccess] = useState<string>('')
+  const [groupByLaunchStatus, setGroupByLaunchStatus] = useState<string>('')
 
   useEffect(() => {
     async function fetchData() {
@@ -84,19 +89,47 @@ const App: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonItem>
-          <IonInput
+          <IonSearchbar
             value={searchText}
             placeholder='Enter Launch Name...'
             onIonChange={(e) => setSearchText(e.detail.value!)}
-          ></IonInput>
+          ></IonSearchbar>
         </IonItem>
+        <IonItem>
+          <IonLabel>Launch Status</IonLabel>
+          <IonSelect
+            value={groupBySuccess}
+            placeholder='Select One'
+            onIonChange={(e) => setGroupBySuccess(e.detail.value)}
+          >
+            <IonSelectOption value='success'>Success</IonSelectOption>
+            <IonSelectOption value='failed'>Failed</IonSelectOption>
+          </IonSelect>
+        </IonItem>
+
+        <IonItem>
+          <IonLabel>Future Launches</IonLabel>
+          <IonSelect
+            value={groupByLaunchStatus}
+            placeholder='Select One'
+            onIonChange={(e) => setGroupByLaunchStatus(e.detail.value)}
+          >
+            <IonSelectOption value='yes'>Yes</IonSelectOption>
+            <IonSelectOption value='no'>No</IonSelectOption>
+          </IonSelect>
+        </IonItem>
+
         <Launches launches={searchText !== '' ? filteredLaunches : launches} />
+
         <IonInfiniteScroll
           threshold='100px'
           onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}
           disabled={page === 5}
         >
-          <IonInfiniteScrollContent loadingText={'Loading more data...'} />
+          <IonInfiniteScrollContent
+            loadingSpinner='bubbles'
+            loadingText={'Loading more data...'}
+          />
         </IonInfiniteScroll>
       </IonContent>
     </IonPage>
