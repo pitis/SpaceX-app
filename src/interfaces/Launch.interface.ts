@@ -2,10 +2,10 @@ export interface Launch {
   id: string
   name: string
   imageUrl: string
-  information: string
-  success: boolean
-  links: links
   date_utc: Date
+  success: boolean
+  upcoming: boolean
+  links: links
 }
 
 interface links {
