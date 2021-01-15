@@ -41,7 +41,7 @@ const App: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('')
   const [launches, setLaunches] = useState<Launch[]>([])
   const [filteredLaunches, setFilteredLaunches] = useState<Launch[]>([])
-  const [groupBySuccess, setGroupBySuccess] = useState<boolean>()
+  const [groupBySuccess, setGroupBySuccess] = useState<string>('')
 
   useEffect(() => {
     async function fetchData() {
@@ -60,15 +60,19 @@ const App: React.FC = () => {
   }, [page])
 
   useEffect(() => {
-    let filteredLaunches = launches.filter(
-      (launch: Launch) => launch.success === groupBySuccess
-    )
-
-    if (searchText !== '')
-      filteredLaunches = filteredLaunches.filter(
+    let filteredLaunches: Launch[] = []
+    if (groupBySuccess !== '') {
+      filteredLaunches = launches.filter(
+        (launch: Launch) =>
+          launch.name.toUpperCase().indexOf(searchText.toUpperCase()) > -1 &&
+          launch.success === groupBySuccess
+      )
+    } else {
+      filteredLaunches = launches.filter(
         (launch: Launch) =>
           launch.name.toUpperCase().indexOf(searchText.toUpperCase()) > -1
       )
+    }
 
     setFilteredLaunches(filteredLaunches)
   }, [launches, groupBySuccess, searchText])
@@ -105,7 +109,7 @@ const App: React.FC = () => {
             placeholder='Select One'
             onIonChange={(e) => setGroupBySuccess(e.detail.value)}
           >
-            <IonSelectOption value=''>-</IonSelectOption>
+            <IonSelectOption value={''}>-</IonSelectOption>
             <IonSelectOption value={true}>Success</IonSelectOption>
             <IonSelectOption value={false}>Failed</IonSelectOption>
           </IonSelect>

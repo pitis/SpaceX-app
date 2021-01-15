@@ -3,7 +3,7 @@ export interface Launch {
   name: string
   imageUrl: string
   date_utc: Date
-  success: boolean
+  success: string
   upcoming: boolean
   links: links
 }
