@@ -8,7 +8,7 @@ interface props {
 
 const Launches: React.FC<props> = ({ launches }) => (
   <IonList>
-    {launches.length > 0 &&
+    {launches.length > 0 ? (
       launches.map((launch: Launch) => (
         <IonItem key={launch.id}>
           <IonAvatar slot='start'>
@@ -30,7 +30,12 @@ const Launches: React.FC<props> = ({ launches }) => (
           <IonNote slot='end'>{launch.success ? 'Success' : 'Failed'}</IonNote>
           <IonLabel style={{ textAlign: 'right' }}></IonLabel>
         </IonItem>
-      ))}
+      ))
+    ) : (
+      <IonItem>
+        <IonLabel>Loading...</IonLabel>
+      </IonItem>
+    )}
   </IonList>
 )
 
