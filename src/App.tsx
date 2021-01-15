@@ -41,8 +41,7 @@ const App: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('')
   const [launches, setLaunches] = useState<Launch[]>([])
   const [filteredLaunches, setFilteredLaunches] = useState<Launch[]>([])
-  const [groupBySuccess, setGroupBySuccess] = useState<string>('')
-  const [groupByLaunchStatus, setGroupByLaunchStatus] = useState<string>('')
+  const [groupBySuccess, setGroupBySuccess] = useState<boolean>()
 
   useEffect(() => {
     async function fetchData() {
@@ -61,14 +60,18 @@ const App: React.FC = () => {
   }, [page])
 
   useEffect(() => {
-    if (searchText !== '') {
-      let filteredLaunches = launches.filter(
+    let filteredLaunches = launches.filter(
+      (launch: Launch) => launch.success === groupBySuccess
+    )
+
+    if (searchText !== '')
+      filteredLaunches = filteredLaunches.filter(
         (launch: Launch) =>
           launch.name.toUpperCase().indexOf(searchText.toUpperCase()) > -1
       )
-      setFilteredLaunches(filteredLaunches)
-    }
-  }, [searchText, launches])
+
+    setFilteredLaunches(filteredLaunches)
+  }, [launches, groupBySuccess, searchText])
 
   async function searchNext(event: CustomEvent<void>) {
     setPage((page) => page + 1)
@@ -102,12 +105,13 @@ const App: React.FC = () => {
             placeholder='Select One'
             onIonChange={(e) => setGroupBySuccess(e.detail.value)}
           >
-            <IonSelectOption value='success'>Success</IonSelectOption>
-            <IonSelectOption value='failed'>Failed</IonSelectOption>
+            <IonSelectOption value=''>-</IonSelectOption>
+            <IonSelectOption value={true}>Success</IonSelectOption>
+            <IonSelectOption value={false}>Failed</IonSelectOption>
           </IonSelect>
         </IonItem>
 
-        <IonItem>
+        {/* <IonItem>
           <IonLabel>Future Launches</IonLabel>
           <IonSelect
             value={groupByLaunchStatus}
@@ -117,9 +121,11 @@ const App: React.FC = () => {
             <IonSelectOption value='yes'>Yes</IonSelectOption>
             <IonSelectOption value='no'>No</IonSelectOption>
           </IonSelect>
-        </IonItem>
+        </IonItem> */}
 
-        <Launches launches={searchText !== '' ? filteredLaunches : launches} />
+        <Launches
+          launches={filteredLaunches.length > 0 ? filteredLaunches : launches}
+        />
 
         <IonInfiniteScroll
           threshold='100px'
