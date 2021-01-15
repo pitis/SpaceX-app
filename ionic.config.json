@@ -1,0 +1,7 @@
+{
+  "name": "spacex-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
