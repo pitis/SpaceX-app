@@ -11,6 +11,5 @@ export interface Launch {
 interface links {
   patch: {
     small: string
-    large: string
   }
 }

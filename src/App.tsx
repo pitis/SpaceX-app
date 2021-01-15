@@ -111,18 +111,6 @@ const App: React.FC = () => {
           </IonSelect>
         </IonItem>
 
-        {/* <IonItem>
-          <IonLabel>Future Launches</IonLabel>
-          <IonSelect
-            value={groupByLaunchStatus}
-            placeholder='Select One'
-            onIonChange={(e) => setGroupByLaunchStatus(e.detail.value)}
-          >
-            <IonSelectOption value='yes'>Yes</IonSelectOption>
-            <IonSelectOption value='no'>No</IonSelectOption>
-          </IonSelect>
-        </IonItem> */}
-
         <Launches
           launches={filteredLaunches.length > 0 ? filteredLaunches : launches}
         />
